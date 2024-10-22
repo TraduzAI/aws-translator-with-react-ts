@@ -1,7 +1,7 @@
 // src/components/TextOutputArea.tsx
 
 import React from 'react';
-import { Box, TextField, Typography } from '@mui/material';
+import {Box, TextField, Typography} from '@mui/material';
 import ImportExportButtons from './ImportExportButtons';
 
 const TextOutputArea = () => {
@@ -9,7 +9,7 @@ const TextOutputArea = () => {
     const outputText = '';
 
     return (
-        <Box sx={{ padding: '10px' }}>
+        <Box sx={{padding: '10px'}}>
             <Typography variant="h6">Texto Simplificado e Traduzido:</Typography>
             <TextField
                 multiline
@@ -18,11 +18,11 @@ const TextOutputArea = () => {
                 fullWidth
                 value={outputText}
                 slotProps={{
-                    htmlInput: { readOnly: true },
+                    htmlInput: {readOnly: true},
                 }}
-                sx={{ marginTop: '10px' }}
+                sx={{marginTop: '10px'}}
             />
-            <ImportExportButtons isInput={false} />
+            <ImportExportButtons isInput={false}/>
         </Box>
     );
 };
