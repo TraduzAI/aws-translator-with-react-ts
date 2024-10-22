@@ -1,7 +1,7 @@
 // src/components/MetricsDisplay.tsx
 
 import React from 'react';
-import { Typography } from '@mui/material';
+import {Typography} from '@mui/material';
 
 const MetricsDisplay = () => {
     // Placeholder for the metrics data
@@ -25,7 +25,7 @@ const MetricsDisplay = () => {
     };
 
     return (
-        <div style={{ padding: '10px' }}>
+        <div style={{padding: '10px'}}>
             <Typography variant="h6">Métricas do Texto Original</Typography>
             {Object.entries(originalMetrics).map(([key, value]) => (
                 <Typography key={key}>
@@ -33,7 +33,7 @@ const MetricsDisplay = () => {
                 </Typography>
             ))}
 
-            <Typography variant="h6" style={{ marginTop: '20px' }}>
+            <Typography variant="h6" style={{marginTop: '20px'}}>
                 Métricas do Texto Simplificado
             </Typography>
             {Object.entries(simplifiedMetrics).map(([key, value]) => (

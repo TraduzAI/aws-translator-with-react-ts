@@ -4,12 +4,9 @@ import React, {useState} from 'react';
 import {
     Button,
     Checkbox,
-    FormControl,
     FormControlLabel,
     FormGroup,
-    InputLabel,
     MenuItem,
-    Select,
     TextField,
     Typography,
 } from '@mui/material';
@@ -84,8 +81,6 @@ const ParametersPanel = () => {
     const [maxTokens, setMaxTokens] = useState(1500);
 
     const handleTranslate = () => {
-        // Implement the translation and simplification logic here
-        // For now, we can just console.log the parameters
         console.log({
             language,
             specialty,
@@ -102,84 +97,83 @@ const ParametersPanel = () => {
     };
 
     return (
-        <div style={{padding: '10px'}}>
+        (<div style={{padding: '10px'}}>
             <Typography variant="h6">Parâmetros</Typography>
-
-            <FormControl fullWidth margin="normal">
-                <InputLabel>Idioma de destino</InputLabel>
-                <Select
-                    value={language}
-                    label="Idioma de destino"
-                    onChange={(e) => setLanguage(e.target.value as string)}
-                >
-                    {languages.map((lang) => (
-                        <MenuItem key={lang} value={lang}>
-                            {lang}
-                        </MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
-
-            <FormControl fullWidth margin="normal">
-                <InputLabel>Área técnica</InputLabel>
-                <Select
-                    value={specialty}
-                    label="Área técnica"
-                    onChange={(e) => setSpecialty(e.target.value as string)}
-                >
-                    {specialties.map((spec) => (
-                        <MenuItem key={spec} value={spec}>
-                            {spec}
-                        </MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
-
-            <FormControl fullWidth margin="normal">
-                <InputLabel>Estilo de escrita</InputLabel>
-                <Select
-                    value={style}
-                    label="Estilo de escrita"
-                    onChange={(e) => setStyle(e.target.value as string)}
-                >
-                    {styles.map((styleOption) => (
-                        <MenuItem key={styleOption} value={styleOption}>
-                            {styleOption}
-                        </MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
-
-            <FormControl fullWidth margin="normal">
-                <InputLabel>Modelo OpenAI</InputLabel>
-                <Select
-                    value={model}
-                    label="Modelo OpenAI"
-                    onChange={(e) => setModel(e.target.value as string)}
-                >
-                    {availableModels.map((modelOption) => (
-                        <MenuItem key={modelOption} value={modelOption}>
-                            {modelOption}
-                        </MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
-
-            <FormControl fullWidth margin="normal">
-                <InputLabel>Nível de Complexidade</InputLabel>
-                <Select
-                    value={complexity}
-                    label="Nível de Complexidade"
-                    onChange={(e) => setComplexity(e.target.value as string)}
-                >
-                    {complexityLevels.map((level) => (
-                        <MenuItem key={level} value={level}>
-                            {level}
-                        </MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
-
+            <TextField
+                select
+                label="Idioma de destino"
+                value={language}
+                onChange={(e) => setLanguage(e.target.value as string)}
+                variant="outlined"
+                fullWidth
+                margin="normal"
+            >
+                {languages.map((lang) => (
+                    <MenuItem key={lang} value={lang}>
+                        {lang}
+                    </MenuItem>
+                ))}
+            </TextField>
+            <TextField
+                select
+                label="Área técnica"
+                value={specialty}
+                onChange={(e) => setSpecialty(e.target.value as string)}
+                variant="outlined"
+                fullWidth
+                margin="normal"
+            >
+                {specialties.map((spec) => (
+                    <MenuItem key={spec} value={spec}>
+                        {spec}
+                    </MenuItem>
+                ))}
+            </TextField>
+            <TextField
+                select
+                label="Estilo de escrita"
+                value={style}
+                onChange={(e) => setStyle(e.target.value as string)}
+                variant="outlined"
+                fullWidth
+                margin="normal"
+            >
+                {styles.map((styleOption) => (
+                    <MenuItem key={styleOption} value={styleOption}>
+                        {styleOption}
+                    </MenuItem>
+                ))}
+            </TextField>
+            <TextField
+                select
+                label="Modelo OpenAI"
+                value={model}
+                onChange={(e) => setModel(e.target.value as string)}
+                variant="outlined"
+                fullWidth
+                margin="normal"
+            >
+                {availableModels.map((modelOption) => (
+                    <MenuItem key={modelOption} value={modelOption}>
+                        {modelOption}
+                    </MenuItem>
+                ))}
+            </TextField>
+            <TextField
+                select
+                label="Nível de Complexidade"
+                value={complexity}
+                onChange={(e) => setComplexity(e.target.value as string)}
+                variant="outlined"
+                fullWidth
+                margin="normal"
+            >
+                {complexityLevels.map((level) => (
+                    <MenuItem key={level} value={level}>
+                        {level}
+                    </MenuItem>
+                ))}
+            </TextField>
             <Typography variant="subtitle1">Focar em:</Typography>
             <FormGroup>
                 <FormControlLabel
@@ -210,16 +204,18 @@ const ParametersPanel = () => {
                     label="Formalidade"
                 />
             </FormGroup>
-
             <Typography variant="subtitle1">Parâmetros da API OpenAI:</Typography>
             <TextField
                 label="Temperature"
                 type="number"
-                inputProps={{step: 0.1}}
                 value={temperature}
                 onChange={(e) => setTemperature(parseFloat(e.target.value))}
                 fullWidth
                 margin="normal"
+                variant="outlined"
+                slotProps={{
+                    htmlInput: {step: 0.1}
+                }}
             />
             <TextField
                 label="Max Tokens"
@@ -228,8 +224,8 @@ const ParametersPanel = () => {
                 onChange={(e) => setMaxTokens(parseInt(e.target.value))}
                 fullWidth
                 margin="normal"
+                variant="outlined"
             />
-
             <FormControlLabel
                 control={
                     <Checkbox
@@ -239,7 +235,6 @@ const ParametersPanel = () => {
                 }
                 label="Resumir"
             />
-
             <Button
                 variant="contained"
                 color="primary"
@@ -249,7 +244,7 @@ const ParametersPanel = () => {
             >
                 Simplificar Linguagem e Traduzir
             </Button>
-        </div>
+        </div>)
     );
 };
 

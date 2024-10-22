@@ -1,15 +1,15 @@
 // src/components/TextOutputArea.tsx
 
 import React from 'react';
-import { TextField, Typography } from '@mui/material';
+import { Box, TextField, Typography } from '@mui/material';
 import ImportExportButtons from './ImportExportButtons';
 
 const TextOutputArea = () => {
-    // Replace with the actual output text from the state or props
+    // Substitua com o texto de saída real do estado ou props
     const outputText = '';
 
     return (
-        <div style={{ padding: '10px' }}>
+        <Box sx={{ padding: '10px' }}>
             <Typography variant="h6">Texto Simplificado e Traduzido:</Typography>
             <TextField
                 multiline
@@ -17,13 +17,13 @@ const TextOutputArea = () => {
                 variant="outlined"
                 fullWidth
                 value={outputText}
-                InputProps={{
-                    readOnly: true,
+                slotProps={{
+                    htmlInput: { readOnly: true },
                 }}
-                style={{ marginTop: '10px' }}
+                sx={{ marginTop: '10px' }}
             />
             <ImportExportButtons isInput={false} />
-        </div>
+        </Box>
     );
 };
 

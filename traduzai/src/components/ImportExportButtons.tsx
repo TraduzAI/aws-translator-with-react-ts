@@ -1,13 +1,13 @@
 // src/components/ImportExportButtons.tsx
 
 import React from 'react';
-import { Button } from '@mui/material';
+import {Button} from '@mui/material';
 
 interface Props {
     isInput: boolean;
 }
 
-const ImportExportButtons: React.FC<Props> = ({ isInput }) => {
+const ImportExportButtons: React.FC<Props> = ({isInput}) => {
     const handleImport = () => {
         // Implement the import logic here
     };
@@ -17,7 +17,7 @@ const ImportExportButtons: React.FC<Props> = ({ isInput }) => {
     };
 
     return (
-        <div style={{ marginTop: '10px' }}>
+        <div style={{marginTop: '10px'}}>
             {isInput ? (
                 <Button variant="contained" color="primary" onClick={handleImport}>
                     Importar Documento
