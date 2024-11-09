@@ -1,13 +1,16 @@
 // src/components/TextArea.tsx
 
-import React, {useState} from 'react';
+import React from 'react';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import ImportExportButtons from './ImportExportButtons';
 
-const TextArea = () => {
-    const [text, setText] = useState('');
+interface Props {
+    text: string;
+    onTextChange: (text: string) => void;
+}
 
+const TextArea: React.FC<Props> = ({text, onTextChange}) => {
     return (
         <div style={{padding: '10px'}}>
             <Typography variant="h6">Texto para Simplificar e Traduzir:</Typography>
@@ -17,10 +20,14 @@ const TextArea = () => {
                 variant="outlined"
                 fullWidth
                 value={text}
-                onChange={(e) => setText(e.target.value)}
+                onChange={(e) => onTextChange(e.target.value)}
                 style={{marginTop: '10px'}}
             />
-            <ImportExportButtons isInput={true}/>
+            <ImportExportButtons
+                isInput={true}
+                text={text}
+                onTextChange={onTextChange}
+            />
         </div>
     );
 };

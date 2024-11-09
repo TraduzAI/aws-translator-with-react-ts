@@ -3,44 +3,45 @@
 import React from 'react';
 import {Typography} from '@mui/material';
 
-const MetricsDisplay = () => {
-    // Placeholder for the metrics data
-    const originalMetrics = {
-        'Índice de Flesch Reading Ease': 0,
-        'Grau de Flesch-Kincaid': 0,
-        'Índice SMOG': 0,
-        'Índice de Coleman-Liau': 0,
-        'Índice ARI': 0,
-        'Pontuação de Dale-Chall': 0,
-    };
+interface MetricsProps {
+    originalMetrics: { [key: string]: number };
+    simplifiedMetrics: { [key: string]: number };
+    bleuScore: number | null;
+}
 
-    const simplifiedMetrics = {
-        'Índice de Flesch Reading Ease': 0,
-        'Grau de Flesch-Kincaid': 0,
-        'Índice SMOG': 0,
-        'Índice de Coleman-Liau': 0,
-        'Índice ARI': 0,
-        'Pontuação de Dale-Chall': 0,
-        'BLEU Score': 0,
-    };
-
+const MetricsDisplay: React.FC<MetricsProps> = ({
+                                                    originalMetrics,
+                                                    simplifiedMetrics,
+                                                    bleuScore,
+                                                }) => {
     return (
         <div style={{padding: '10px'}}>
             <Typography variant="h6">Métricas do Texto Original</Typography>
-            {Object.entries(originalMetrics).map(([key, value]) => (
-                <Typography key={key}>
-                    {key}: {value}
-                </Typography>
-            ))}
+            {originalMetrics &&
+                Object.entries(originalMetrics).map(([key, value]) => (
+                    <Typography key={key}>
+                        {key}: {value.toFixed(2)}
+                    </Typography>
+                ))}
 
             <Typography variant="h6" style={{marginTop: '20px'}}>
                 Métricas do Texto Simplificado
             </Typography>
-            {Object.entries(simplifiedMetrics).map(([key, value]) => (
-                <Typography key={key}>
-                    {key}: {value}
-                </Typography>
-            ))}
+            {simplifiedMetrics &&
+                Object.entries(simplifiedMetrics).map(([key, value]) => (
+                    <Typography key={key}>
+                        {key}: {value.toFixed(2)}
+                    </Typography>
+                ))}
+
+            {bleuScore !== null && (
+                <>
+                    <Typography variant="h6" style={{marginTop: '20px'}}>
+                        BLEU Score
+                    </Typography>
+                    <Typography>{bleuScore.toFixed(2)}</Typography>
+                </>
+            )}
         </div>
     );
 };

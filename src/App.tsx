@@ -1,4 +1,4 @@
-import React, {useMemo, useState, useEffect} from 'react';
+import React, {useMemo, useState} from 'react';
 import {ThemeProvider, createTheme, PaletteMode} from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import ParametersPanel from './components/ParametersPanel';
@@ -9,15 +9,16 @@ import './App.css';
 import {Grid2} from '@mui/material';
 import {IconButton, Typography} from '@mui/material';
 import {Brightness4, Brightness7} from '@mui/icons-material';
+import {TranslateResponse} from "./types";
 
 function App() {
-    // Inicializar o estado com valor salvo no localStorage, se existir
+    // Initialize theme mode from localStorage
     const [mode, setMode] = useState<PaletteMode>(() => {
         const savedMode = localStorage.getItem('themeMode');
         return savedMode === 'dark' ? 'dark' : 'light';
     });
 
-    // Função para alternar o modo do tema
+    // Function to toggle theme
     const toggleTheme = () => {
         setMode((prevMode) => {
             const newMode = prevMode === 'light' ? 'dark' : 'light';
@@ -26,7 +27,7 @@ function App() {
         });
     };
 
-    // Criação do tema com base no modo atual
+    // Create theme based on current mode
     const theme = useMemo(
         () =>
             createTheme({
@@ -40,24 +41,33 @@ function App() {
                         paper: mode === 'light' ? '#ffffff' : '#1e1e1e',
                     },
                 },
-                // Outras personalizações do tema
             }),
         [mode]
     );
 
-    // Efeito para sincronizar o tema com o localStorage quando o componente monta
-    useEffect(() => {
-        const savedMode = localStorage.getItem('themeMode');
-        if (savedMode === 'dark' && mode !== 'dark') {
-            setMode('dark');
-        }
-    }, [mode]);
+    // State to hold text input and output
+    const [inputText, setInputText] = useState('');
+    const [outputText, setOutputText] = useState('');
+
+    // State to hold metrics
+    const [metricsOriginal, setMetricsOriginal] = useState<{ [key: string]: number }>({});
+    const [metricsSimplified, setMetricsSimplified] = useState<{ [key: string]: number }>({});
+    const [bleuScore, setBleuScore] = useState<number | null>(null);
+
+
+    // Função para lidar com o resultado da tradução
+    const handleTranslateResult = (data: TranslateResponse) => {
+        setOutputText(data.translated_text);
+        setMetricsOriginal(data.metrics_original);
+        setMetricsSimplified(data.metrics_simplified);
+        setBleuScore(data.bleu_score);
+    };
 
     return (
         <ThemeProvider theme={theme}>
-            <CssBaseline/> {/* Aplica estilos globais do MUI */}
+            <CssBaseline/>
             <div className="App">
-                {/* Botão de Alternância de Tema */}
+                {/* Theme Toggle Button */}
                 <div
                     style={{
                         display: 'flex',
@@ -74,31 +84,45 @@ function App() {
                     </Typography>
                 </div>
 
-                {/* Grid Principal */}
+                {/* Main Grid */}
                 <Grid2 container spacing={2} sx={{padding: 2}}>
-                    {/* Painel Esquerdo */}
+                    {/* Left Panel */}
                     <Grid2
                         size={{xs: 12, md: 3}} // Usando 'size' em vez de 'xs' e 'md'
                         sx={{backgroundColor: 'background.paper', padding: 2, borderRadius: 1}}
                     >
-                        <ParametersPanel/>
+                        <ParametersPanel
+                            onTranslate={handleTranslateResult}
+                            inputText={inputText}
+                        />
                     </Grid2>
 
-                    {/* Painel do Meio */}
+                    {/* Middle Panel */}
                     <Grid2
-                        size={{xs: 12, md: 6}}
+                        size={{xs: 12, md: 6}} // Usando 'size' em vez de 'xs' e 'md'
                         sx={{backgroundColor: 'background.paper', padding: 2, borderRadius: 1}}
                     >
-                        <TextArea/>
-                        <TextOutputArea/>
+                        <TextArea
+                            text={inputText}
+                            onTextChange={setInputText}
+                        />
+                        <TextOutputArea
+                            outputText={outputText}
+                            metricsOriginal={metricsOriginal}
+                            metricsSimplified={metricsSimplified}
+                        />
                     </Grid2>
 
-                    {/* Painel Direito */}
+                    {/* Right Panel */}
                     <Grid2
-                        size={{xs: 12, md: 3}}
+                        size={{xs: 12, md: 3}} // Usando 'size' em vez de 'xs' e 'md'
                         sx={{backgroundColor: 'background.paper', padding: 2, borderRadius: 1}}
                     >
-                        <MetricsDisplay/>
+                        <MetricsDisplay
+                            originalMetrics={metricsOriginal}
+                            simplifiedMetrics={metricsSimplified}
+                            bleuScore={bleuScore}
+                        />
                     </Grid2>
                 </Grid2>
             </div>
